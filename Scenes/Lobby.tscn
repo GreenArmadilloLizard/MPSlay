@@ -1,0 +1,175 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Lobby.gd" type="Script" id=1]
+
+[node name="Lobby" type="CanvasLayer"]
+script = ExtResource( 1 )
+
+[node name="Background" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="CenterContainer" type="CenterContainer" parent="Background"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1017.0
+margin_bottom = 593.0
+
+[node name="CreateGame" type="VBoxContainer" parent="Background/CenterContainer"]
+editor/display_folded = true
+visible = false
+margin_left = 456.0
+margin_top = 271.0
+margin_right = 553.0
+margin_bottom = 315.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="PreJoinServer" type="Button" parent="Background/CenterContainer/CreateGame"]
+margin_right = 97.0
+margin_bottom = 20.0
+text = "Join Server"
+
+[node name="CreateServer" type="Button" parent="Background/CenterContainer/CreateGame"]
+margin_top = 24.0
+margin_right = 97.0
+margin_bottom = 44.0
+text = "Create Server"
+
+[node name="JoinServer" type="VBoxContainer" parent="Background/CenterContainer"]
+editor/display_folded = true
+visible = false
+margin_left = 398.0
+margin_top = 269.0
+margin_right = 611.0
+margin_bottom = 317.0
+
+[node name="IPRow" type="HBoxContainer" parent="Background/CenterContainer/JoinServer"]
+margin_right = 213.0
+margin_bottom = 24.0
+custom_constants/separation = 17
+
+[node name="LabelIP" type="Label" parent="Background/CenterContainer/JoinServer/IPRow"]
+margin_top = 5.0
+margin_right = 66.0
+margin_bottom = 19.0
+text = "IP-Adress:"
+
+[node name="TextfieldIP" type="LineEdit" parent="Background/CenterContainer/JoinServer/IPRow"]
+margin_left = 83.0
+margin_right = 213.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 130, 0 )
+
+[node name="JoinServer" type="Button" parent="Background/CenterContainer/JoinServer"]
+margin_top = 28.0
+margin_right = 213.0
+margin_bottom = 48.0
+text = "Join Server"
+
+[node name="PlayerLobby" type="VBoxContainer" parent="Background/CenterContainer"]
+margin_left = 417.0
+margin_top = 207.0
+margin_right = 592.0
+margin_bottom = 378.0
+custom_constants/separation = 18
+
+[node name="ItemList" type="ItemList" parent="Background/CenterContainer/PlayerLobby"]
+margin_right = 175.0
+margin_bottom = 9.0
+rect_min_size = Vector2( 175, 0 )
+auto_height = true
+
+[node name="HSeparator" type="HSeparator" parent="Background/CenterContainer/PlayerLobby"]
+margin_top = 27.0
+margin_right = 175.0
+margin_bottom = 31.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Background/CenterContainer/PlayerLobby"]
+margin_top = 49.0
+margin_right = 175.0
+margin_bottom = 73.0
+
+[node name="Label" type="Label" parent="Background/CenterContainer/PlayerLobby/HBoxContainer2"]
+margin_top = 5.0
+margin_right = 42.0
+margin_bottom = 19.0
+text = "Name:"
+
+[node name="NameInput" type="LineEdit" parent="Background/CenterContainer/PlayerLobby/HBoxContainer2"]
+margin_left = 46.0
+margin_right = 104.0
+margin_bottom = 24.0
+text = "Player"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/CenterContainer/PlayerLobby"]
+margin_top = 91.0
+margin_right = 175.0
+margin_bottom = 111.0
+
+[node name="Label" type="Label" parent="Background/CenterContainer/PlayerLobby/HBoxContainer"]
+margin_top = 3.0
+margin_right = 82.0
+margin_bottom = 17.0
+text = "Select Team:"
+
+[node name="SelectTeam" type="OptionButton" parent="Background/CenterContainer/PlayerLobby/HBoxContainer"]
+margin_left = 86.0
+margin_right = 174.32
+margin_bottom = 20.0
+rect_min_size = Vector2( 88.32, 0 )
+text = "Dirt"
+items = [ "Dirt", null, false, 0, null, "Grass", null, false, 1, null, "Mars", null, false, 2, null, "Sand", null, false, 3, null, "Stone", null, false, 4, null ]
+selected = 0
+
+[node name="HSeparator2" type="HSeparator" parent="Background/CenterContainer/PlayerLobby"]
+margin_top = 129.0
+margin_right = 175.0
+margin_bottom = 133.0
+
+[node name="ButtonStartGame" type="Button" parent="Background/CenterContainer/PlayerLobby"]
+margin_top = 151.0
+margin_right = 175.0
+margin_bottom = 171.0
+text = "Start Game"
+
+[node name="LabelLoading" type="Label" parent="Background/CenterContainer"]
+visible = false
+margin_left = 444.0
+margin_top = 286.0
+margin_right = 566.0
+margin_bottom = 300.0
+text = "Trying to connect..."
+
+[node name="ContainerIP" type="HBoxContainer" parent="."]
+editor/display_folded = true
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = -40.0
+margin_right = 122.0
+margin_bottom = -20.0
+custom_constants/separation = 10
+alignment = 1
+
+[node name="LabelIP" type="Label" parent="ContainerIP"]
+margin_top = 3.0
+margin_right = 49.0
+margin_bottom = 17.0
+text = "Your IP:"
+valign = 1
+
+[node name="ButtonIP" type="Button" parent="ContainerIP"]
+margin_left = 59.0
+margin_right = 102.0
+margin_bottom = 20.0
+size_flags_vertical = 0
+text = "Copy"
+align = 0
+[connection signal="pressed" from="Background/CenterContainer/CreateGame/PreJoinServer" to="." method="_on_PreJoinServer_pressed"]
+[connection signal="pressed" from="Background/CenterContainer/CreateGame/CreateServer" to="." method="_on_CreateServer_pressed"]
+[connection signal="pressed" from="Background/CenterContainer/JoinServer/JoinServer" to="." method="_on_JoinServer_pressed"]
+[connection signal="text_entered" from="Background/CenterContainer/PlayerLobby/HBoxContainer2/NameInput" to="." method="_on_name_text_entered"]
+[connection signal="item_selected" from="Background/CenterContainer/PlayerLobby/HBoxContainer/SelectTeam" to="." method="_on_team_item_selected"]
+[connection signal="pressed" from="Background/CenterContainer/PlayerLobby/ButtonStartGame" to="." method="_on_ButtonStartGame_pressed"]
+[connection signal="pressed" from="ContainerIP/ButtonIP" to="." method="_on_ButtonIP_pressed"]
