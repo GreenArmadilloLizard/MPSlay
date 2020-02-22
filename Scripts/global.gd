@@ -16,6 +16,16 @@ enum Team {
 	Stone = 4
 	}
 
+enum tile_object{
+	Empty = -1,
+	Base = 0,
+	Tower = 1
+	Peasant = 2,
+	Bandit = 3,
+	Warrior = 4,
+	Knight = 5
+	}
+
 func _ready():
 	seed(121117)
 
@@ -23,7 +33,7 @@ func load_map(map):
 	lobby.hide()
 	var world = load(map).instance()
 	game_node.add_child(world)
-	
+
 	world.start_game(Network.player_info)
 	cam.set_offset(DEFAULT_CAM_POS)
 	cam.current = true

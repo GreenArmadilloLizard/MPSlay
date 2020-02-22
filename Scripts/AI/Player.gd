@@ -15,12 +15,12 @@ func init(player_data, p_game_logic, p_map_manager):
 	game_logic = p_game_logic
 	player_info = player_data
 	map_manager = p_map_manager
-	
+
 	connect("move_object", game_logic, "_on_player_move")
 	connect("place_object", game_logic, "_on_player_place")
 	connect("remove_object", game_logic, "_on_player_remove")
 	connect("end_turn", game_logic, "_on_player_end_turn")
-	
+
 	game_logic.connect("start_of_turn", self , "_on_turn_start")
 
 func _on_turn_start(next_team):
@@ -28,4 +28,4 @@ func _on_turn_start(next_team):
 		start_turn()
 
 func start_turn():
-	print("ITS YOUR TURN " + str(name))
+	print("It's your turn " + str(player_info.name))

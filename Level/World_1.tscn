@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/GameLogic.gd" type="Script" id=1]
-[ext_resource path="res://Scripts/Maps.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/MapManager.gd" type="Script" id=2]
 [ext_resource path="res://Asstes/TileMap/dirt_06.png" type="Texture" id=3]
 [ext_resource path="res://Asstes/TileMap/grass_05.png" type="Texture" id=4]
 [ext_resource path="res://Asstes/TileMap/mars_07.png" type="Texture" id=5]
@@ -14,7 +14,7 @@
 [ext_resource path="res://Asstes/Objects/unit_t3.png" type="Texture" id=12]
 [ext_resource path="res://Asstes/Objects/unit_t4.png" type="Texture" id=13]
 [ext_resource path="res://Asstes/Effects/sleep_Z.png" type="Texture" id=14]
-[ext_resource path="res://Scenes/UIInfo.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/UI/UIInfo.tscn" type="PackedScene" id=15]
 
 [sub_resource type="TileSet" id=1]
 0/name = "dirt_06.png 0"

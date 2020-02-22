@@ -1,10 +1,12 @@
 extends Node
 
+class_name MapManager
+
 signal tile_changed(new_floor_map)
 
-onready var floor_map := $FloorMap
-onready var object_map := $ObjectMap
-onready var effect_map := $EffectMap
+var floor_map : TileMap
+var object_map : TileMap
+var effect_map : TileMap
 
 enum tile_object{
 	Empty = -1,
@@ -55,6 +57,11 @@ var object_buy_cost = {
 var bases := []
 
 func _ready():
+	if floor_map == null:
+		floor_map = $FloorMap
+		object_map = $ObjectMap
+		effect_map = $EffectMap
+
 	#register Bases
 	bases.clear()
 	var all_obj_tiles = object_map.get_used_cells()
@@ -63,15 +70,15 @@ func _ready():
 			var new_base = BaseClass.new(map_pos)
 			bases.append(new_base)
 			update_tile(map_pos)
-	print("Starting with " + str(len(bases)) + " bases")
-	
+
 	var all_floor_tiles = floor_map.get_used_cells()
 	for map_pos in all_floor_tiles:
 		update_tile(map_pos)
-	
+
 	for base in bases:
 		update_base(base.position)
 		base.start_turn()
+
 
 func clear_effect(map_pos):
 	effect_map.set_cellv(map_pos, tile_effect.Empty)
@@ -79,13 +86,17 @@ func clear_effect(map_pos):
 func set_effect(map_pos, effect):
 	effect_map.set_cellv(map_pos, effect)
 
+func get_all_objects():
+	return object_map.get_used_cells()
+
 func get_all_tiles():
 	return floor_map.get_used_cells()
+
 # returns removed object
 func remove_object(map_pos : Vector2) -> int:
 	var old_obj := object_map.get_cellv(map_pos) as int
 	object_map.set_cellv(map_pos, tile_object.Empty)
-	
+
 	if old_obj == tile_object.Base:
 		var del_me = get_base_with_pos(map_pos)
 		bases.erase(del_me)
@@ -105,7 +116,7 @@ func move_object(from_map_pos : Vector2, to_map_pos : Vector2):
 	if target_obj == tile_object.Empty:
 		print("Target is empty")
 		return
-	
+
 	place_object(from_map_pos, tile_object.Empty)
 	place_object(to_map_pos, target_obj)
 
@@ -127,7 +138,7 @@ func starve_area(map_pos : Vector2):
 func update_base(map_pos):
 	var base = get_base_with_pos(map_pos)
 	var area = get_area(map_pos)
-	
+
 	base.income = len(area)
 	base.wages = 0
 	for tile in area:
@@ -149,7 +160,7 @@ func update_tile(map_pos : Vector2):
 			local_bases.append(tile)
 		elif is_troop(tile):
 			local_troops.append(tile)
-	
+
 	var main_base
 	if len(local_bases) == 0: # if there is no base
 		var ran_index = randi() % len(area)
@@ -175,15 +186,15 @@ func get_area(map_pos : Vector2) -> Array:
 	var todo_check := []
 	var done_check := []
 	todo_check.append(map_pos)
-	
+
 	while(todo_check.size() > 0):
-		var current_tile = todo_check[0]		
+		var current_tile = todo_check[0]
 		todo_check.remove(0)
 		done_check.append(current_tile)
 		for tile in get_neighbours(current_tile):
 			if floor_map.get_cellv(tile) == team && !done_check.has(tile) && !todo_check.has(tile):
 				todo_check.append(tile)
-	
+
 	return done_check
 
 #returns the border tiles from area
@@ -195,7 +206,7 @@ func get_border(map_pos : Vector2) -> Array:
 	var done_check := []
 	var border := []
 	todo_check.append(map_pos)
-	
+
 	while(todo_check.size() > 0):
 		var current_tile = todo_check[0]
 		todo_check.remove(0)
@@ -213,13 +224,13 @@ func fuse_bases(map_pos_A : Vector2, map_pos_B : Vector2):
 	if object_map.get_cellv(map_pos_A) != tile_object.Base || object_map.get_cellv(map_pos_B) != tile_object.Base || map_pos_A == map_pos_B:
 		print("There are no 2 bases")
 		return
-	
+
 	var baseA := get_base_with_pos(map_pos_A)
 	var baseB := get_base_with_pos(map_pos_B)
 	baseA.money += baseB.money
 	remove_object(map_pos_B)
 
-# upgrades troop. returns true if possible 
+# upgrades troop. returns true if possible
 func upgrade_troop(map_pos : Vector2):
 	var obj = get_object(map_pos)
 	if !troop_upgrade.has(obj):
@@ -248,7 +259,7 @@ func get_base_in_area(map_pos : Vector2):
 func get_bases_of_team(team):
 	var ret = []
 	for base in bases:
-		if get_team(base.position) == team: 
+		if get_team(base.position) == team:
 			ret.append(base)
 	return ret
 
@@ -268,19 +279,19 @@ func get_neighbours(map_pos : Vector2) -> Array:
 	if (map_pos.y as int % 2) == 0:
 		neighbours.append(map_pos + Vector2(1,0))
 		neighbours.append(map_pos + Vector2(-1,0))
-		
+
 		neighbours.append(map_pos + Vector2(0,1))
 		neighbours.append(map_pos + Vector2(0,-1))
-		
+
 		neighbours.append(map_pos + Vector2(-1,1))
 		neighbours.append(map_pos + Vector2(-1,-1))
 	else:
 		neighbours.append(map_pos + Vector2(1,0))
 		neighbours.append(map_pos + Vector2(-1,0))
-		
+
 		neighbours.append(map_pos + Vector2(0,1))
 		neighbours.append(map_pos + Vector2(0,-1))
-		
+
 		neighbours.append(map_pos + Vector2(1,1))
 		neighbours.append(map_pos + Vector2(1,-1))
 	return neighbours
@@ -305,9 +316,13 @@ func is_troop(map_pos : Vector2):
 	or obj == tile_object.Warrior \
 	or obj == tile_object.Knight:
 		return true
-	else: 
+	else:
 		return false
 
 # returns the team on floor_map
 func get_team(map_pos : Vector2):
 	return floor_map.get_cellv(map_pos)
+
+func ai_reset_map():
+	floor_map = TileMap.new()
+	object_map = TileMap.new()

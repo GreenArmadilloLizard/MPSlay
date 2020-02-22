@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/UI/UIInfo.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UI_BaseInfo.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/UI/UI_PlayerInfo.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/UI/UI_Player_Strength_Bar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Asstes/Objects/unit_t1.png" type="Texture" id=5]
+[ext_resource path="res://Asstes/Objects/tower.png" type="Texture" id=6]
 
 [node name="UIInfo" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -14,9 +16,11 @@ anchor_bottom = 0.5
 margin_top = -159.0
 margin_right = 180.0
 margin_bottom = 159.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="BaseInfo" type="PanelContainer" parent="WindowContainer"]
-editor/display_folded = true
 margin_right = 180.0
 margin_bottom = 116.0
 script = ExtResource( 2 )
@@ -30,18 +34,24 @@ margin_bottom = 109.0
 [node name="Savings" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
 margin_right = 166.0
 margin_bottom = 14.0
+hint_tooltip = "How much money your Base has saved from last turn."
+mouse_filter = 0
 text = "Savings: --"
 
 [node name="Income" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
 margin_top = 18.0
 margin_right = 166.0
 margin_bottom = 32.0
+hint_tooltip = "Based on how many tiles are under control."
+mouse_filter = 0
 text = "Income: --"
 
 [node name="Wages" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
 margin_top = 36.0
 margin_right = 166.0
 margin_bottom = 50.0
+hint_tooltip = "Based on how much money your Units cost per turn."
+mouse_filter = 0
 text = "Wages: --"
 
 [node name="HSeparator" type="HSeparator" parent="WindowContainer/BaseInfo/VBoxContainer"]
@@ -53,6 +63,8 @@ margin_bottom = 58.0
 margin_top = 62.0
 margin_right = 166.0
 margin_bottom = 76.0
+hint_tooltip = "How much money your Base had on the start of the turn."
+mouse_filter = 0
 text = "Balance: --"
 
 [node name="HSeparator2" type="HSeparator" parent="WindowContainer/BaseInfo/VBoxContainer"]
@@ -64,12 +76,47 @@ margin_bottom = 84.0
 margin_top = 88.0
 margin_right = 166.0
 margin_bottom = 102.0
+hint_tooltip = "How much money your Base has left this turn."
+mouse_filter = 0
 text = "Money: --"
 
-[node name="PlayerInfo" type="PanelContainer" parent="WindowContainer"]
+[node name="Shop" type="PanelContainer" parent="WindowContainer"]
 margin_top = 120.0
 margin_right = 180.0
-margin_bottom = 318.0
+margin_bottom = 204.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WindowContainer/Shop"]
+margin_left = 18.0
+margin_top = 7.0
+margin_right = 162.0
+margin_bottom = 77.0
+size_flags_horizontal = 4
+
+[node name="BuyTroopButt" type="Button" parent="WindowContainer/Shop/HBoxContainer"]
+margin_right = 70.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 70, 70 )
+hint_tooltip = "Cost: 10"
+focus_mode = 0
+enabled_focus_mode = 0
+icon = ExtResource( 5 )
+expand_icon = true
+
+[node name="BuyTowerButt" type="Button" parent="WindowContainer/Shop/HBoxContainer"]
+margin_left = 74.0
+margin_right = 144.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 70, 70 )
+hint_tooltip = "Cost: 30"
+focus_mode = 0
+enabled_focus_mode = 0
+icon = ExtResource( 6 )
+expand_icon = true
+
+[node name="PlayerInfo" type="PanelContainer" parent="WindowContainer"]
+margin_top = 208.0
+margin_right = 180.0
+margin_bottom = 406.0
 script = ExtResource( 3 )
 
 [node name="PlayerBars" type="HBoxContainer" parent="WindowContainer/PlayerInfo"]
@@ -100,3 +147,5 @@ tint_color = Color( 0.898039, 0.843137, 0, 1 )
 margin_left = 136.0
 margin_right = 166.0
 tint_color = Color( 0.517647, 0.517647, 0.517647, 1 )
+[connection signal="pressed" from="WindowContainer/Shop/HBoxContainer/BuyTroopButt" to="." method="_on_BuyTroopButt_pressed"]
+[connection signal="pressed" from="WindowContainer/Shop/HBoxContainer/BuyTowerButt" to="." method="_on_BuyTowerButt_pressed"]
