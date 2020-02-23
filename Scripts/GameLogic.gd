@@ -117,6 +117,8 @@ sync func move(player, from_world_pos, to_world_pos):
 func _on_player_place(player, world_pos, obj):
 	rpc("place",player, world_pos, obj)
 	player_select(player, map.world_to_map(world_pos))
+	if player.team == current_team:
+		map.update_base_shop_effect(player.team)
 
 sync func place(player, world_pos, obj):
 	print(str(player.name) + " placed " + str(obj) + " on " + str(world_pos))
@@ -193,8 +195,7 @@ sync func end_turn(player):
 			base.money = 0
 			map.starve_area(base.position)
 
-	for unit_pos in used_units:
-		map.clear_effect(unit_pos)
+	map.clear_all_effects()
 	used_units.clear()
 
 	emit_signal("start_of_turn", current_team)

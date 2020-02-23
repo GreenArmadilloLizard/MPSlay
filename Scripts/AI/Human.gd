@@ -60,3 +60,7 @@ func _process(delta):
 func _on_unit_buy(unit_index):
 	set_selected_buy(unit_index)
 	print("Buying Unit " + str(unit_index))
+
+func start_turn():
+	print("It's your turn " + str(player_info.name))
+	map_manager.update_base_shop_effect(player_info.team)

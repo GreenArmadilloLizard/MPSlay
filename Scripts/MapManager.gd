@@ -21,6 +21,7 @@ enum tile_object{
 enum tile_effect{
 	Empty = -1,
 	Sleep = 0,
+	Shop = 1,
 	}
 
 var troop_upgrade = {
@@ -79,9 +80,25 @@ func _ready():
 		update_base(base.position)
 		base.start_turn()
 
+func update_base_shop_effect(team_index):
+	clear_all_effects_of_type(tile_effect.Shop)
+	var team_bases = get_bases_of_team(team_index)
+
+	for base in team_bases:
+		if base.money >= 10:
+			set_effect(base.position, tile_effect.Shop)
 
 func clear_effect(map_pos):
 	effect_map.set_cellv(map_pos, tile_effect.Empty)
+
+func clear_all_effects():
+	for cell in effect_map.get_used_cells():
+		effect_map.set_cellv(cell, tile_effect.Empty)
+
+func clear_all_effects_of_type(effect_type):
+	for cell in effect_map.get_used_cells():
+		if effect_map.get_cellv(cell) == effect_type:
+			effect_map.set_cellv(cell, tile_effect.Empty)
 
 func set_effect(map_pos, effect):
 	effect_map.set_cellv(map_pos, effect)
@@ -149,7 +166,7 @@ func update_base(map_pos):
 	var base = get_base_with_pos(map_pos)
 	var area = get_area(map_pos)
 
-	base.wages -= get_area_wages(map_pos)
+	base.wages += get_area_wages(map_pos)
 	base.income = len(area)
 
 
@@ -159,8 +176,6 @@ func get_area_wages(map_pos):
 	for tile in area:
 		if get_object(tile) != tile_object.Empty:
 			cost -= object_cost[get_object(tile)]
-	print("cost")
-	print(cost)
 	return cost
 
 # fuses all bases in an area to one
