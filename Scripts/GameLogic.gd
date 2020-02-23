@@ -59,10 +59,12 @@ func _on_player_move(player, from_world_pos, to_world_pos):
 
 func player_select(player, map_pos):
 	if map.get_team(map_pos) != player.team:
+		emit_signal("select", player, map_pos, null)
 		print("Wrong Select 1") # Not your Tile
 		return
 	var area = map.get_area(map_pos)
 	if area.size() <= 1:
+		emit_signal("select", player, map_pos, null)
 		print("Wrong Select 2") # Too small area
 		return
 	var base = map.get_base_in_area(map_pos)
@@ -169,6 +171,7 @@ sync func remove(player, world_pos):
 
 func _on_player_end_turn(player):
 	rpc("end_turn", player)
+	emit_signal("select", player, null, null)
 
 sync func end_turn(player):
 	print(str(player.name) + " ended its turn")

@@ -86,10 +86,18 @@ func clear_effect(map_pos):
 func set_effect(map_pos, effect):
 	effect_map.set_cellv(map_pos, effect)
 
-func get_all_objects():
+func get_all_objects_in_team(team_index) -> Array:
+	var res = []
+	for obj in object_map.get_used_cells():
+		if get_team(obj) == team_index:
+			res.append(obj)
+	return res
+
+
+func get_all_objects() -> Array:
 	return object_map.get_used_cells()
 
-func get_all_tiles():
+func get_all_tiles() -> Array:
 	return floor_map.get_used_cells()
 
 # returns removed object
@@ -104,6 +112,7 @@ func remove_object(map_pos : Vector2) -> int:
 
 # removes objects and places one
 func place_object(map_pos : Vector2, obj : int):
+# warning-ignore:return_value_discarded
 	remove_object(map_pos)
 	object_map.set_cellv(map_pos, obj)
 	if obj == tile_object.Base:
@@ -133,17 +142,26 @@ func starve_area(map_pos : Vector2):
 	var area = get_area(map_pos)
 	for tile in area:
 		if is_troop(tile):
+# warning-ignore:return_value_discarded
 			remove_object(tile)
 
 func update_base(map_pos):
 	var base = get_base_with_pos(map_pos)
 	var area = get_area(map_pos)
 
+	base.wages -= get_area_wages(map_pos)
 	base.income = len(area)
-	base.wages = 0
+
+
+func get_area_wages(map_pos):
+	var cost = 0
+	var area = get_area(map_pos)
 	for tile in area:
 		if get_object(tile) != tile_object.Empty:
-			base.wages -= object_cost[get_object(tile)]
+			cost -= object_cost[get_object(tile)]
+	print("cost")
+	print(cost)
+	return cost
 
 # fuses all bases in an area to one
 func update_tile(map_pos : Vector2):
@@ -151,6 +169,7 @@ func update_tile(map_pos : Vector2):
 	if len(area) == 0:
 		return
 	elif len(area) == 1:
+# warning-ignore:return_value_discarded
 		remove_object(area[0])
 		return
 	var local_bases := []
@@ -164,6 +183,7 @@ func update_tile(map_pos : Vector2):
 	var main_base
 	if len(local_bases) == 0: # if there is no base
 		var ran_index = randi() % len(area)
+# warning-ignore:unused_variable
 		for i in range(len(area)):
 			if object_map.get_cellv(area[ran_index]) == tile_object.Empty:
 				break
@@ -228,6 +248,7 @@ func fuse_bases(map_pos_A : Vector2, map_pos_B : Vector2):
 	var baseA := get_base_with_pos(map_pos_A)
 	var baseB := get_base_with_pos(map_pos_B)
 	baseA.money += baseB.money
+# warning-ignore:return_value_discarded
 	remove_object(map_pos_B)
 
 # upgrades troop. returns true if possible
@@ -326,3 +347,4 @@ func get_team(map_pos : Vector2):
 func ai_reset_map():
 	floor_map = TileMap.new()
 	object_map = TileMap.new()
+	bases.clear()
