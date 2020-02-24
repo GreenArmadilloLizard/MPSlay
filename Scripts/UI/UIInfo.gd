@@ -20,3 +20,10 @@ func _on_BuyTroopButt_pressed():
 
 func _on_BuyTowerButt_pressed():
 	emit_signal("unit_buy", MapManager.tile_object.Tower)
+
+
+func _on_Game_start_of_turn(team):
+	$WindowContainer/TurnDisplay.set_current_team(team)
+
+sync func set_cpu_icons(bool_array : PoolByteArray):
+	$WindowContainer/PlayerInfo.set_cpu_icons(bool_array)

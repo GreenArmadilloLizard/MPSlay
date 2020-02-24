@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/UI/UIInfo.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/UI/UI_BaseInfo.gd" type="Script" id=2]
@@ -6,93 +6,127 @@
 [ext_resource path="res://Scenes/UI/UI_Player_Strength_Bar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Asstes/Objects/unit_t1.png" type="Texture" id=5]
 [ext_resource path="res://Asstes/Objects/tower.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/UI/UI_TurnDisplay.gd" type="Script" id=7]
+[ext_resource path="res://Asstes/TileMap/dirt_06.png" type="Texture" id=8]
+[ext_resource path="res://Asstes/TileMap/grass_05.png" type="Texture" id=9]
+[ext_resource path="res://Asstes/TileMap/mars_07.png" type="Texture" id=10]
+[ext_resource path="res://Asstes/TileMap/sand_07.png" type="Texture" id=11]
+[ext_resource path="res://Asstes/TileMap/stone_07.png" type="Texture" id=12]
 
 [node name="UIInfo" type="CanvasLayer"]
 script = ExtResource( 1 )
 
 [node name="WindowContainer" type="VBoxContainer" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_top = -159.0
+anchor_bottom = 1.0
 margin_right = 180.0
-margin_bottom = 159.0
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="BaseInfo" type="PanelContainer" parent="WindowContainer"]
+margin_top = 1.0
 margin_right = 180.0
-margin_bottom = 116.0
+margin_bottom = 143.0
 script = ExtResource( 2 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WindowContainer/BaseInfo"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 173.0
-margin_bottom = 109.0
+margin_bottom = 135.0
 
-[node name="Savings" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
+[node name="Label" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
 margin_right = 166.0
 margin_bottom = 14.0
+hint_tooltip = "How much money your Base has saved from last turn."
+mouse_filter = 0
+text = "Shop"
+
+[node name="HSeparator3" type="HSeparator" parent="WindowContainer/BaseInfo/VBoxContainer"]
+margin_top = 18.0
+margin_right = 166.0
+margin_bottom = 22.0
+
+[node name="Savings" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
+margin_top = 26.0
+margin_right = 166.0
+margin_bottom = 40.0
 hint_tooltip = "How much money your Base has saved from last turn."
 mouse_filter = 0
 text = "Savings: --"
 
 [node name="Income" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
-margin_top = 18.0
+margin_top = 44.0
 margin_right = 166.0
-margin_bottom = 32.0
+margin_bottom = 58.0
 hint_tooltip = "Based on how many tiles are under control."
 mouse_filter = 0
 text = "Income: --"
 
 [node name="Wages" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
-margin_top = 36.0
+margin_top = 62.0
 margin_right = 166.0
-margin_bottom = 50.0
+margin_bottom = 76.0
 hint_tooltip = "Based on how much money your Units cost per turn."
 mouse_filter = 0
 text = "Wages: --"
 
 [node name="HSeparator" type="HSeparator" parent="WindowContainer/BaseInfo/VBoxContainer"]
-margin_top = 54.0
+margin_top = 80.0
 margin_right = 166.0
-margin_bottom = 58.0
+margin_bottom = 84.0
 
 [node name="Balance" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
-margin_top = 62.0
+margin_top = 88.0
 margin_right = 166.0
-margin_bottom = 76.0
+margin_bottom = 102.0
 hint_tooltip = "How much money your Base had on the start of the turn."
 mouse_filter = 0
 text = "Balance: --"
 
 [node name="HSeparator2" type="HSeparator" parent="WindowContainer/BaseInfo/VBoxContainer"]
-margin_top = 80.0
+margin_top = 106.0
 margin_right = 166.0
-margin_bottom = 84.0
+margin_bottom = 110.0
 
 [node name="Money" type="Label" parent="WindowContainer/BaseInfo/VBoxContainer"]
-margin_top = 88.0
+margin_top = 114.0
 margin_right = 166.0
-margin_bottom = 102.0
+margin_bottom = 128.0
 hint_tooltip = "How much money your Base has left this turn."
 mouse_filter = 0
 text = "Money: --"
 
 [node name="Shop" type="PanelContainer" parent="WindowContainer"]
-margin_top = 120.0
+margin_top = 147.0
 margin_right = 180.0
-margin_bottom = 204.0
+margin_bottom = 257.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="WindowContainer/Shop"]
-margin_left = 18.0
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowContainer/Shop"]
+margin_left = 7.0
 margin_top = 7.0
-margin_right = 162.0
-margin_bottom = 77.0
+margin_right = 173.0
+margin_bottom = 103.0
+
+[node name="Label" type="Label" parent="WindowContainer/Shop/VBoxContainer"]
+margin_right = 166.0
+margin_bottom = 14.0
+text = "Shop"
+
+[node name="HSeparator" type="HSeparator" parent="WindowContainer/Shop/VBoxContainer"]
+margin_top = 18.0
+margin_right = 166.0
+margin_bottom = 22.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="WindowContainer/Shop/VBoxContainer"]
+margin_left = 11.0
+margin_top = 26.0
+margin_right = 155.0
+margin_bottom = 96.0
 size_flags_horizontal = 4
 
-[node name="BuyTroopButt" type="Button" parent="WindowContainer/Shop/HBoxContainer"]
+[node name="BuyTroopButt" type="Button" parent="WindowContainer/Shop/VBoxContainer/HBoxContainer"]
 margin_right = 70.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 70, 70 )
@@ -102,7 +136,7 @@ enabled_focus_mode = 0
 icon = ExtResource( 5 )
 expand_icon = true
 
-[node name="BuyTowerButt" type="Button" parent="WindowContainer/Shop/HBoxContainer"]
+[node name="BuyTowerButt" type="Button" parent="WindowContainer/Shop/VBoxContainer/HBoxContainer"]
 margin_left = 74.0
 margin_right = 144.0
 margin_bottom = 70.0
@@ -114,38 +148,90 @@ icon = ExtResource( 6 )
 expand_icon = true
 
 [node name="PlayerInfo" type="PanelContainer" parent="WindowContainer"]
-margin_top = 208.0
+margin_top = 261.0
 margin_right = 180.0
-margin_bottom = 406.0
+margin_bottom = 485.0
 script = ExtResource( 3 )
 
-[node name="PlayerBars" type="HBoxContainer" parent="WindowContainer/PlayerInfo"]
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowContainer/PlayerInfo"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 173.0
-margin_bottom = 191.0
+margin_bottom = 217.0
 
-[node name="Player1" parent="WindowContainer/PlayerInfo/PlayerBars" instance=ExtResource( 4 )]
+[node name="Label" type="Label" parent="WindowContainer/PlayerInfo/VBoxContainer"]
+margin_right = 166.0
+margin_bottom = 14.0
+text = "Team Strength"
+
+[node name="HSeparator" type="HSeparator" parent="WindowContainer/PlayerInfo/VBoxContainer"]
+margin_top = 18.0
+margin_right = 166.0
+margin_bottom = 22.0
+
+[node name="PlayerBars" type="HBoxContainer" parent="WindowContainer/PlayerInfo/VBoxContainer"]
+margin_top = 26.0
+margin_right = 166.0
+margin_bottom = 210.0
+
+[node name="Player1" parent="WindowContainer/PlayerInfo/VBoxContainer/PlayerBars" instance=ExtResource( 4 )]
 tint_color = Color( 0.443137, 0.188235, 0, 1 )
 
-[node name="Player2" parent="WindowContainer/PlayerInfo/PlayerBars" instance=ExtResource( 4 )]
+[node name="Player2" parent="WindowContainer/PlayerInfo/VBoxContainer/PlayerBars" instance=ExtResource( 4 )]
 margin_left = 34.0
 margin_right = 64.0
 tint_color = Color( 0.215686, 0.745098, 0, 1 )
 
-[node name="Player3" parent="WindowContainer/PlayerInfo/PlayerBars" instance=ExtResource( 4 )]
+[node name="Player3" parent="WindowContainer/PlayerInfo/VBoxContainer/PlayerBars" instance=ExtResource( 4 )]
 margin_left = 68.0
 margin_right = 98.0
-tint_color = Color( 1, 0.4, 0, 1 )
+tint_color = Color( 0.968627, 0.227451, 0.0313726, 1 )
 
-[node name="Player4" parent="WindowContainer/PlayerInfo/PlayerBars" instance=ExtResource( 4 )]
+[node name="Player4" parent="WindowContainer/PlayerInfo/VBoxContainer/PlayerBars" instance=ExtResource( 4 )]
 margin_left = 102.0
 margin_right = 132.0
 tint_color = Color( 0.898039, 0.843137, 0, 1 )
 
-[node name="Player5" parent="WindowContainer/PlayerInfo/PlayerBars" instance=ExtResource( 4 )]
+[node name="Player5" parent="WindowContainer/PlayerInfo/VBoxContainer/PlayerBars" instance=ExtResource( 4 )]
 margin_left = 136.0
 margin_right = 166.0
 tint_color = Color( 0.517647, 0.517647, 0.517647, 1 )
-[connection signal="pressed" from="WindowContainer/Shop/HBoxContainer/BuyTroopButt" to="." method="_on_BuyTroopButt_pressed"]
-[connection signal="pressed" from="WindowContainer/Shop/HBoxContainer/BuyTowerButt" to="." method="_on_BuyTowerButt_pressed"]
+
+[node name="TurnDisplay" type="PanelContainer" parent="WindowContainer"]
+margin_top = 489.0
+margin_right = 180.0
+margin_bottom = 599.0
+script = ExtResource( 7 )
+team_dirt_tex = ExtResource( 8 )
+team_grass_tex = ExtResource( 9 )
+team_mars_tex = ExtResource( 10 )
+team_sand_tex = ExtResource( 11 )
+team_stone_tex = ExtResource( 12 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WindowContainer/TurnDisplay"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 173.0
+margin_bottom = 103.0
+
+[node name="TeamTurnLabel" type="Label" parent="WindowContainer/TurnDisplay/VBoxContainer"]
+margin_right = 166.0
+margin_bottom = 14.0
+text = "Team Dirt's Turn"
+
+[node name="HSeparator" type="HSeparator" parent="WindowContainer/TurnDisplay/VBoxContainer"]
+margin_top = 18.0
+margin_right = 166.0
+margin_bottom = 22.0
+
+[node name="TeamTurnTex" type="TextureRect" parent="WindowContainer/TurnDisplay/VBoxContainer"]
+margin_left = 53.0
+margin_top = 26.0
+margin_right = 113.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 60, 70 )
+size_flags_horizontal = 4
+texture = ExtResource( 8 )
+expand = true
+[connection signal="pressed" from="WindowContainer/Shop/VBoxContainer/HBoxContainer/BuyTroopButt" to="." method="_on_BuyTroopButt_pressed"]
+[connection signal="pressed" from="WindowContainer/Shop/VBoxContainer/HBoxContainer/BuyTowerButt" to="." method="_on_BuyTowerButt_pressed"]

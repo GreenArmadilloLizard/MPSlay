@@ -182,4 +182,5 @@ format = 1
 
 [node name="UIInfo" parent="." instance=ExtResource( 13 )]
 [connection signal="select" from="." to="UIInfo" method="_on_Game_select"]
+[connection signal="start_of_turn" from="." to="UIInfo" method="_on_Game_start_of_turn"]
 [connection signal="tile_changed" from="Map" to="UIInfo" method="_on_Map_tile_changed"]

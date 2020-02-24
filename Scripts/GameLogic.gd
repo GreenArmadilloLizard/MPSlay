@@ -36,15 +36,20 @@ func start_game(players):
 	$UIInfo.connect("unit_buy", client_player, "_on_unit_buy")
 
 	if selfPeerID == 1: # Load NPC, connect with end of turn
+		var cpus = [false, false, false, false, false]
+
 		for player in Network.player_info:
 			possilbe_teams.erase(Network.player_info[player].team)
+
 		for free_team in possilbe_teams:
+			cpus[free_team] = true
 			var npc_player = load(npc_scene).instance()
 			npc_player.set_name("CPU " + str(free_team))
 			$Players.add_child(npc_player)
 			npc_player.init({name = "CPU " + str(free_team), team = free_team}, self, map)
 			print(npc_player.name + " was created.")
 
+		$UIInfo.rpc("set_cpu_icons", cpus)
 	$UIInfo._on_Map_tile_changed(map.floor_map)
 	emit_signal("start_of_turn", current_team)
 

@@ -1,14 +1,19 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/UI/UI_Player_Strength_Bar.gd" type="Script" id=1]
 [ext_resource path="res://Asstes/UI/grey_panel.png" type="Texture" id=2]
 [ext_resource path="res://Asstes/UI/Icons/small/singleplayer.png" type="Texture" id=3]
-
+[ext_resource path="res://Asstes/UI/Icons/small/target.png" type="Texture" id=4]
 
 [node name="Player1" type="VBoxContainer"]
 margin_right = 30.0
 margin_bottom = 184.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+player_icon = ExtResource( 3 )
+cpu_icon = ExtResource( 4 )
 
 [node name="PlayerProgress" type="TextureProgress" parent="."]
 margin_right = 30.0

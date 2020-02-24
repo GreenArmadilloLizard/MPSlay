@@ -62,5 +62,5 @@ sync func change_player_info(id, new_info):
 	player_info[id] = new_info
 	if id == get_tree().get_network_unique_id():
 		my_info = new_info
-	
+
 	lobby.rpc("update_lobby")
