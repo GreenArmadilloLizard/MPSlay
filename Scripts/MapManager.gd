@@ -57,6 +57,10 @@ var object_buy_cost = {
 
 var bases := []
 
+func _input(event):
+	if event.is_action_pressed("debug_i"):
+		print(get_base_with_pos(world_to_map(get_global_mouse_position())).print_self())
+
 func _ready():
 	if floor_map == null:
 		floor_map = $FloorMap
@@ -265,6 +269,7 @@ func fuse_bases(map_pos_A : Vector2, map_pos_B : Vector2):
 	baseA.money += baseB.money
 # warning-ignore:return_value_discarded
 	remove_object(map_pos_B)
+	update_base_shop_effect(get_team(map_pos_A))
 
 # upgrades troop. returns true if possible
 func upgrade_troop(map_pos : Vector2):

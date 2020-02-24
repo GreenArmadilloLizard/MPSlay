@@ -3,7 +3,7 @@ extends Node2D
 signal start_of_turn(team)
 signal select(player, map_pos, base)
 
-export var max_players = 5
+const max_players = 5
 export var camera_speed := 3.0
 
 onready var cam := $Camera2D
@@ -13,9 +13,10 @@ onready var player_manager := $Players
 const player_scene := "res://Scenes/Human.tscn"
 const npc_scene := "res://Scenes/NPC.tscn"
 
-var current_team = global.Team.Dirt
 var used_units := []
-var possilbe_teams := [global.Team.Dirt, global.Team.Grass, global.Team.Mars, global.Team.Sand, global.Team.Stone]
+
+const possilbe_teams := [global.Team.Dirt, global.Team.Grass, global.Team.Mars, global.Team.Sand, global.Team.Stone]
+var current_team = global.Team.Dirt
 
 var player_count
 var npc_count

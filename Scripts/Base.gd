@@ -17,3 +17,9 @@ func start_turn():
 	savings = money
 	balance = savings + income + wages
 	money = balance
+
+func print_self():
+	print("savings: " + str(savings))
+	print("income: " + str(income))
+	print("wages: " + str(wages))
+	print("money: " + str(money))
