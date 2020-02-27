@@ -16,28 +16,33 @@ margin_right = 1017.0
 margin_bottom = 593.0
 
 [node name="CreateGame" type="VBoxContainer" parent="Background/CenterContainer"]
-editor/display_folded = true
 visible = false
 margin_left = 456.0
-margin_top = 271.0
+margin_top = 247.0
 margin_right = 553.0
-margin_bottom = 315.0
+margin_bottom = 339.0
 size_flags_horizontal = 4
 size_flags_vertical = 0
+custom_constants/separation = 16
 
-[node name="PreJoinServer" type="Button" parent="Background/CenterContainer/CreateGame"]
+[node name="SinglePlayer" type="Button" parent="Background/CenterContainer/CreateGame"]
 margin_right = 97.0
 margin_bottom = 20.0
+text = "Singleplayer"
+
+[node name="PreJoinServer" type="Button" parent="Background/CenterContainer/CreateGame"]
+margin_top = 36.0
+margin_right = 97.0
+margin_bottom = 56.0
 text = "Join Server"
 
 [node name="CreateServer" type="Button" parent="Background/CenterContainer/CreateGame"]
-margin_top = 24.0
+margin_top = 72.0
 margin_right = 97.0
-margin_bottom = 44.0
+margin_bottom = 92.0
 text = "Create Server"
 
 [node name="JoinServer" type="VBoxContainer" parent="Background/CenterContainer"]
-editor/display_folded = true
 visible = false
 margin_left = 398.0
 margin_top = 269.0
@@ -142,7 +147,6 @@ margin_bottom = 300.0
 text = "Trying to connect..."
 
 [node name="ContainerIP" type="HBoxContainer" parent="."]
-editor/display_folded = true
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
@@ -151,6 +155,9 @@ margin_right = 122.0
 margin_bottom = -20.0
 custom_constants/separation = 10
 alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LabelIP" type="Label" parent="ContainerIP"]
 margin_top = 3.0
@@ -166,6 +173,7 @@ margin_bottom = 20.0
 size_flags_vertical = 0
 text = "Copy"
 align = 0
+[connection signal="pressed" from="Background/CenterContainer/CreateGame/SinglePlayer" to="." method="_on_SinglePlayer_pressed"]
 [connection signal="pressed" from="Background/CenterContainer/CreateGame/PreJoinServer" to="." method="_on_PreJoinServer_pressed"]
 [connection signal="pressed" from="Background/CenterContainer/CreateGame/CreateServer" to="." method="_on_CreateServer_pressed"]
 [connection signal="pressed" from="Background/CenterContainer/JoinServer/JoinServer" to="." method="_on_JoinServer_pressed"]

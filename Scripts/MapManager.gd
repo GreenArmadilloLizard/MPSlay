@@ -78,6 +78,7 @@ func _ready():
 
 	for base in bases:
 		update_base(base.position)
+		base.money = 8
 		base.start_turn()
 
 func update_base_shop_effect(team_index):

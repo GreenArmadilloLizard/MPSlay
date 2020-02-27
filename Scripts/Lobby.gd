@@ -72,23 +72,5 @@ func get_team_name() -> String:
 func get_team_id() -> int:
 	return $Background/CenterContainer/PlayerLobby/HBoxContainer/SelectTeam.selected
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+func _on_SinglePlayer_pressed():
+	pass
