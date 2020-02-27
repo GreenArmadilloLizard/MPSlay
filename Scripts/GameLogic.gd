@@ -21,6 +21,14 @@ var current_team = global.Team.Dirt
 var player_count
 var npc_count
 
+func _input(event):
+	if event.is_action_released("debug_i"):
+		print("Debug i")
+		var base = map.get_base_with_pos(map.world_to_map(get_global_mouse_position()))
+		print(base)
+		if base != null:
+			base.print_self()
+
 
 func start_game(players):
 	player_count = players.size()

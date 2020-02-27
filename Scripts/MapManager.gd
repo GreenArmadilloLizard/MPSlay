@@ -57,10 +57,6 @@ var object_buy_cost = {
 
 var bases := []
 
-func _input(event):
-	if event.is_action_pressed("debug_i"):
-		print(get_base_with_pos(world_to_map(get_global_mouse_position())).print_self())
-
 func _ready():
 	if floor_map == null:
 		floor_map = $FloorMap
@@ -170,7 +166,7 @@ func update_base(map_pos):
 	var base = get_base_with_pos(map_pos)
 	var area = get_area(map_pos)
 
-	base.wages += get_area_wages(map_pos)
+	base.wages = get_area_wages(map_pos)
 	base.income = len(area)
 
 
