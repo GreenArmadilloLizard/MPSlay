@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/UI/Menu/UI_MainMenu.gd" type="Script" id=1]
+
+[node name="UI_MainMenu" type="Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -123.0
+margin_right = 123.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButtons" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 15
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SPButton" type="Button" parent="MenuButtons"]
+margin_top = 237.0
+margin_right = 246.0
+margin_bottom = 257.0
+text = "Singleplayer"
+
+[node name="MPButton" type="Button" parent="MenuButtons"]
+margin_top = 272.0
+margin_right = 246.0
+margin_bottom = 292.0
+text = "Multiplayer"
+
+[node name="OptionsButton" type="Button" parent="MenuButtons"]
+margin_top = 307.0
+margin_right = 246.0
+margin_bottom = 327.0
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="MenuButtons"]
+margin_top = 342.0
+margin_right = 246.0
+margin_bottom = 362.0
+text = "Quit Game"
+[connection signal="pressed" from="MenuButtons/SPButton" to="." method="_on_SPButton_pressed"]
+[connection signal="pressed" from="MenuButtons/MPButton" to="." method="_on_MPButton_pressed"]
+[connection signal="pressed" from="MenuButtons/OptionsButton" to="." method="_on_OptionsButton_pressed"]
+[connection signal="pressed" from="MenuButtons/QuitButton" to="." method="_on_QuitButton_pressed"]

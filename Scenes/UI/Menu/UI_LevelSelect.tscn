@@ -1,0 +1,69 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/UI/Menu/UI_LevelSelect.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+
+[node name="UI_LevelSelect" type="PanelContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -186.0
+margin_top = -84.5
+margin_right = 186.0
+margin_bottom = 84.5
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+default_level_tex = ExtResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 365.0
+margin_bottom = 162.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 358.0
+margin_bottom = 14.0
+text = "Select a Level"
+align = 1
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 358.0
+margin_bottom = 131.0
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
+items = [ "Level 1", ExtResource( 2 ), false, "Level 2", ExtResource( 2 ), false, "Level 3", ExtResource( 2 ), false, "Level 4", ExtResource( 2 ), false ]
+auto_height = true
+max_columns = 0
+same_column_width = true
+icon_mode = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 135.0
+margin_right = 358.0
+margin_bottom = 155.0
+alignment = 1
+
+[node name="OkButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 130.0
+margin_right = 181.0
+margin_bottom = 20.0
+text = "Select"
+
+[node name="BackButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 185.0
+margin_right = 227.0
+margin_bottom = 20.0
+text = "Back"
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/OkButton" to="." method="_on_OkButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/BackButton" to="." method="_on_BackButton_pressed"]
