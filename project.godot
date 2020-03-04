@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Base.gd"
 }, {
-"base": "Reference",
-"class": "Data",
-"language": "GDScript",
-"path": "res://Scripts/Data.gd"
-}, {
 "base": "Node",
 "class": "MapManager",
 "language": "GDScript",
@@ -27,11 +22,10 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Player",
 "language": "GDScript",
-"path": "res://Scripts/AI/Player.gd"
+"path": "res://Scripts/Player/Player.gd"
 } ]
 _global_script_class_icons={
 "BaseClass": "",
-"Data": "",
 "MapManager": "",
 "Player": ""
 }
@@ -39,13 +33,22 @@ _global_script_class_icons={
 [application]
 
 config/name="SlayRemake"
-run/main_scene="res://Scenes/StartUp.tscn"
+config/description="Version 0.7.0"
+run/main_scene="res://Scenes/UI/Menu/TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-global="*res://Scripts/global.gd"
-Network="*res://Scripts/Network.gd"
+global="*res://Scripts/AutoLoad/global.gd"
+Network="*res://Scripts/AutoLoad/Network.gd"
+ScreenManager="*res://Scripts/AutoLoad/ScreenManager.gd"
+GameData="*res://Scripts/AutoLoad/GameData.gd"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+window/size/resizable=false
 
 [input]
 
@@ -141,4 +144,5 @@ debug_i={
 
 [rendering]
 
+environment/default_clear_color=Color( 0.294118, 0.396078, 0.517647, 1 )
 environment/default_environment="res://default_env.tres"

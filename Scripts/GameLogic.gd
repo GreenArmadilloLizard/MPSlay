@@ -1,51 +1,50 @@
 extends Node2D
 
+
 signal start_of_turn(team)
 signal select(player, map_pos, base)
 
 const max_players = 5
 export var camera_speed := 3.0
 
-onready var cam := $Camera2D
 onready var map := $Map
-onready var player_manager := $Players
 
 const player_scene := "res://Scenes/Human.tscn"
 const npc_scene := "res://Scenes/NPC.tscn"
 
 var used_units := []
 
-const possilbe_teams := [global.Team.Dirt, global.Team.Grass, global.Team.Mars, global.Team.Sand, global.Team.Stone]
 var current_team = global.Team.Dirt
 
 var player_count
 var npc_count
 
-func _input(event):
-	if event.is_action_released("debug_i"):
-		print("Debug i")
-		var base = map.get_base_with_pos(map.world_to_map(get_global_mouse_position()))
-		print(base)
-		if base != null:
-			base.print_self()
+
+func _ready():
+	if get_tree().network_peer == null:
+		print("No Server found")
+		return
+	start_game()
 
 
-func start_game(players):
-	player_count = players.size()
-	npc_count = max_players - player_count
-
+func start_game():
 	# create client player
 	var selfPeerID = get_tree().get_network_unique_id()
 	var client_player = preload(player_scene).instance()
 	client_player.set_name(str(selfPeerID))
 	$Players.add_child(client_player)
+
 	# set vars
 	client_player.set_network_master(selfPeerID)
 	client_player.init(Network.my_info, self, map)
 	$UIInfo.connect("unit_buy", client_player, "_on_unit_buy")
 
-	if selfPeerID == 1: # Load NPC, connect with end of turn
+	# Create NPCs on Serber
+	print("My ID")
+	print(selfPeerID)
+	if selfPeerID == 1:
 		var cpus = [false, false, false, false, false]
+		var possilbe_teams := [global.Team.Dirt, global.Team.Grass, global.Team.Mars, global.Team.Sand, global.Team.Stone]
 
 		for player in Network.player_info:
 			possilbe_teams.erase(Network.player_info[player].team)
@@ -53,14 +52,19 @@ func start_game(players):
 		for free_team in possilbe_teams:
 			cpus[free_team] = true
 			var npc_player = load(npc_scene).instance()
+			print(npc_player)
 			npc_player.set_name("CPU " + str(free_team))
 			$Players.add_child(npc_player)
 			npc_player.init({name = "CPU " + str(free_team), team = free_team}, self, map)
 			print(npc_player.name + " was created.")
 
 		$UIInfo.rpc("set_cpu_icons", cpus)
+
+	# Update UI
 	$UIInfo._on_Map_tile_changed(map.floor_map)
+
 	emit_signal("start_of_turn", current_team)
+
 
 func _on_player_move(player, from_world_pos, to_world_pos):
 	var from_map_pos = map.world_to_map(from_world_pos)
@@ -70,6 +74,7 @@ func _on_player_move(player, from_world_pos, to_world_pos):
 	else:
 		rpc("move", player, from_world_pos, to_world_pos)
 		player_select(player, to_map_pos)
+
 
 func player_select(player, map_pos):
 	if map.get_team(map_pos) != player.team:
@@ -83,6 +88,7 @@ func player_select(player, map_pos):
 		return
 	var base = map.get_base_in_area(map_pos)
 	emit_signal("select", player, map_pos, base)
+
 
 sync func move(player, from_world_pos, to_world_pos):
 	var from_map_pos = map.world_to_map(from_world_pos)
@@ -128,11 +134,16 @@ sync func move(player, from_world_pos, to_world_pos):
 	map.move_object(from_map_pos, to_map_pos)
 	map.convert_tile(to_map_pos, player.team)
 
+	if has_team_won(player.team):
+		print(str(current_team) + " Won!")
+
+
 func _on_player_place(player, world_pos, obj):
 	rpc("place",player, world_pos, obj)
 	player_select(player, map.world_to_map(world_pos))
 	if player.team == current_team:
 		map.update_base_shop_effect(player.team)
+
 
 sync func place(player, world_pos, obj):
 	print(str(player.name) + " placed " + str(obj) + " on " + str(world_pos))
@@ -165,8 +176,10 @@ sync func place(player, world_pos, obj):
 	base.money -= map.object_buy_cost[obj] # Pay
 	map.update_tile(map_pos)
 
+
 func _on_player_remove(player, world_pos):
 	rpc("remove", player, world_pos)
+
 
 sync func remove(player, world_pos):
 	print(str(player.name) + " removed on " + str(world_pos))
@@ -185,9 +198,11 @@ sync func remove(player, world_pos):
 	map.remove_object(map_pos)
 	map.update_tile(map_pos)
 
+
 func _on_player_end_turn(player):
 	rpc("end_turn", player)
 	emit_signal("select", player, null, null)
+
 
 sync func end_turn(player):
 	print(str(player.name) + " ended its turn")
@@ -195,12 +210,12 @@ sync func end_turn(player):
 		print("Wrong End 1")
 		return
 
-	if has_player_won(player):
-		print(str(player.name) + " Won!")
-		return
-
 	current_team = (current_team + 1) % max_players
 
+	start_turn()
+
+
+func start_turn():
 	var player_bases = map.get_bases_of_team(current_team)
 	for base in player_bases:
 		map.update_base(base.position)
@@ -214,9 +229,10 @@ sync func end_turn(player):
 
 	emit_signal("start_of_turn", current_team)
 
-func has_player_won(player):
+
+func has_team_won(team):
 	var all_tiles = map.get_all_tiles()
 	for tile in all_tiles:
-		if map.get_team(tile) != player.team:
+		if map.get_team(tile) != team:
 			return false
 	return true
